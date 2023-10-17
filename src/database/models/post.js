@@ -2,7 +2,9 @@
 import { Model } from 'sequelize';
 const Post = (sequelize, DataTypes) => {
     class Post extends Model {
-        static associate(models) {}
+        static associate(models) {
+            Post.belongsTo(models.Company, { foreignKey: 'companyId' });
+        }
     }
     Post.init(
         {
@@ -27,7 +29,7 @@ const Post = (sequelize, DataTypes) => {
             sequelize,
             modelName: 'Post',
             underscored: true,
-            paranoid: true,
+            // paranoid: true, : soft delete
         },
     );
     return Post;
