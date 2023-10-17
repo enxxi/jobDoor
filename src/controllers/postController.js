@@ -6,6 +6,7 @@ const postController = {
         try {
             const newPost = req.body;
             const post = await postService.createPost(newPost);
+
             setCreatedResponse(res);
             return res.send(post.message);
         } catch (error) {
@@ -14,7 +15,9 @@ const postController = {
     },
     getAllPosts: async (req, res, next) => {
         try {
-            const posts = await postService.getAllPosts();
+            const searchQuery = req.query.search;
+            const posts = await postService.getAllPosts(searchQuery);
+
             setOKResponse(res);
             return res.send(posts);
         } catch (error) {
@@ -25,6 +28,7 @@ const postController = {
         try {
             const { postId } = req.params;
             const post = await postService.getPostDetail(postId);
+
             setOKResponse(res);
             return res.send(post);
         } catch (error) {
@@ -36,6 +40,7 @@ const postController = {
             const { postId } = req.params;
             const updatedPostData = req.body;
             const updatedPost = await postService.patchPost({ postId, updatedPostData });
+
             setOKResponse(res);
             return res.send(updatedPost.message);
         } catch (error) {
@@ -46,6 +51,7 @@ const postController = {
         try {
             const { postId } = req.params;
             const deletedPost = await postService.deletePost(postId);
+
             setOKResponse(res);
             return res.send(deletedPost.message);
         } catch (error) {

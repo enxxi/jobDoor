@@ -1,5 +1,6 @@
 import { postRepository } from '../database/repositories/postRepository.js';
 import { InternalServerError, NotFoundError } from '../middlewares/errorMiddleware.js';
+import { throwNotFoundError } from '../utils/commonFunctions.js';
 import { formatPosts, formatPost } from '../utils/formatPost.js';
 
 const postService = {
@@ -11,9 +12,15 @@ const postService = {
             throw new InternalServerError('채용 공고 작성을 실패했습니다.');
         }
     },
-    getAllPosts: async () => {
+    getAllPosts: async searchQuery => {
         try {
-            const posts = await postRepository.getAllPosts();
+            let posts;
+
+            if (searchQuery) {
+                posts = await postRepository.getSearchedPosts(searchQuery);
+            } else {
+                posts = await postRepository.getAllPosts();
+            }
             const formattedPosts = formatPosts(posts);
             return formattedPosts;
         } catch (error) {
@@ -23,10 +30,7 @@ const postService = {
     getPostDetail: async postId => {
         try {
             const post = await postRepository.getPostDetail(postId);
-            if (!post) {
-                throw new NotFoundError('해당 id의 공고를 찾을 수 없습니다.');
-            }
-            console.log(post);
+            throwNotFoundError(post, '채용 공고');
 
             const formattedPost = formatPost(post);
 
@@ -42,9 +46,8 @@ const postService = {
     patchPost: async ({ postId, updatedPostData }) => {
         try {
             const post = await postRepository.getPostById(postId);
-            if (!post) {
-                throw new NotFoundError('해당 id의 공고를 찾을 수 없습니다.');
-            }
+            throwNotFoundError(post, '채용 공고');
+
             await postRepository.patchPost({ postId, updatedPostData });
             return { message: '채용 공고 수정에 성공했습니다.' };
         } catch (error) {
@@ -58,9 +61,8 @@ const postService = {
     deletePost: async postId => {
         try {
             const post = await postRepository.getPostById(postId);
-            if (!post) {
-                throw new NotFoundError('해당 id의 공고를 찾을 수 없습니다.');
-            }
+            throwNotFoundError(post, '채용 공고');
+
             await postRepository.deletePost(postId);
             return { message: '채용 공고 삭제에 성공했습니다.' };
         } catch (error) {

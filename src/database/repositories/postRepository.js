@@ -5,13 +5,44 @@ const postRepository = {
     create: async newPost => {
         await db.Post.create(newPost);
     },
-    getAllPosts: async () => {
+    getSearchedPosts: async searchQuery => {
         const posts = await db.Post.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        skill: {
+                            [Op.like]: `%${searchQuery}%`,
+                        },
+                    },
+                    {
+                        '$Company.name$': {
+                            [Op.like]: `%${searchQuery}%`,
+                        },
+                    },
+                    {
+                        position: {
+                            [Op.like]: `%${searchQuery}%`,
+                        },
+                    },
+                ],
+            },
             attributes: ['id', 'position', 'award', 'skill'],
             include: [{ model: db.Company, attributes: ['name', 'nation', 'country'] }],
             raw: true,
         });
         return posts;
+    },
+    getAllPosts: async () => {
+        try {
+            const posts = await db.Post.findAll({
+                attributes: ['id', 'position', 'award', 'skill'],
+                include: [{ model: db.Company, attributes: ['name', 'nation', 'country'] }],
+                raw: true,
+            });
+            return posts;
+        } catch (e) {
+            console.log(e);
+        }
     },
     getPostDetail: async postId => {
         const post = await db.Post.findOne({

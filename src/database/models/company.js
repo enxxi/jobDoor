@@ -11,6 +11,7 @@ const Company = (sequelize, DataTypes) => {
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                indexes: [{ fields: ['name'], using: 'BTREE', name: 'name_index' }],
             },
             nation: {
                 type: DataTypes.STRING,

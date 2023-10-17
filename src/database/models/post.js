@@ -11,6 +11,7 @@ const Post = (sequelize, DataTypes) => {
             position: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                indexes: [{ fields: ['position'], using: 'BTREE', name: 'position_index' }],
             },
             award: {
                 type: DataTypes.INTEGER,
@@ -19,6 +20,7 @@ const Post = (sequelize, DataTypes) => {
             skill: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                indexes: [{ fields: ['skill'], using: 'BTREE', name: 'skill_index' }],
             },
             content: {
                 type: DataTypes.STRING,
