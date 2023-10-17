@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { db } from '../src/database/models/index.js';
 import { postRouter } from './routes/postRoutes.js';
+import { applicationRouter } from './routes/applicationRoutes.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/posts', postRouter);
+app.use('/applications', applicationRouter);
 
 db.sequelize
     .sync({ alter: true })
