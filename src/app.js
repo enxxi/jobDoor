@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-import { db } from '../database/models/index.js';
-
+import { db } from '../src/database/models/index.js';
+import { postRouter } from './routes/postRoutes.js';
+import { errorMiddleware } from './middlewares/errorMiddleware.js';
 const app = express();
 
 app.use(cors());
@@ -9,8 +10,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use('/posts', postRouter);
+
 db.sequelize
-    .sync({ force: false })
+    .sync({ alter: true })
 
     .then(() => {
         console.log('데이터베이스 연결에 성공했습니다.');
@@ -22,5 +25,7 @@ db.sequelize
 app.get('/', (req, res) => {
     res.send('취업 공고 게시 서비스 jobdoor입니다.');
 });
+
+app.use(errorMiddleware);
 
 export { app };
