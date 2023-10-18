@@ -1,3 +1,4 @@
+import { companyRepository } from '../database/repositories/companyRepository.js';
 import { postRepository } from '../database/repositories/postRepository.js';
 import { InternalServerError, NotFoundError } from '../middlewares/errorMiddleware.js';
 import { throwNotFoundError } from '../utils/commonFunctions.js';
@@ -6,10 +7,19 @@ import { formatPosts, formatPost } from '../utils/formatPost.js';
 const postService = {
     createPost: async newPost => {
         try {
+            const { companyId } = newPost;
+            const company = await companyRepository.getCompanyById(companyId);
+            throwNotFoundError(company, '회사');
+
             await postRepository.create(newPost);
+
             return { message: '채용 공고 작성에 성공했습니다.' };
         } catch (error) {
-            throw new InternalServerError('채용 공고 작성을 실패했습니다.');
+            if (error instanceof NotFoundError) {
+                throw error;
+            } else {
+                throw new InternalServerError('채용 공고 작성을 실패했습니다.');
+            }
         }
     },
     getAllPosts: async searchQuery => {
