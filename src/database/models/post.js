@@ -4,6 +4,7 @@ const Post = (sequelize, DataTypes) => {
     class Post extends Model {
         static associate(models) {
             Post.belongsTo(models.Company, { foreignKey: 'companyId' });
+            Post.hasMany(models.Application, { foreignKey: 'postId', onDelete: 'CASCADE' });
         }
     }
     Post.init(
