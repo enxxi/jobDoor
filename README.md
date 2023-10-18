@@ -1,35 +1,11 @@
 # [ Jobdoor : wanted-pre-onboarding-backend ]
 
-### 소개
+# 소개
 
 🚪 **JobDoor** : 문을 두드려 새로운 기회를 찾듯이, 기업이 게시한 채용 공고에 신속하게 지원할 수 있는 서비스입니다.
 
 ---
-
-## 요구사항 분석
-
-1. 채용공고 등록
-    - 회사는 채용공고를 등록합니다.
-    - 필드 : **회사 ID, 채용포지션, 채용보상금, 채용내용, 사용기술**
-2. 채용공고 수정
-    - 회사는 채용공고를 수정할 수 있습니다. (회사 ID는 수정 불가)
-    - 유효성 검사를 통해 데이터를 수정합니다.
-3. 채용공고 삭제
-    - 회사는 채용공고를 삭제할 수 있습니다.
-4. 채용공고 목록 조회
-    - 사용자는 채용 공고의 목록을 조회할 수 있습니다.
-    - 표시되는 필드 : **회사명, 국가, 지역, 채용포지션, 채용보상금, 사용기술**
-5. 채용공고 검색
-    - 사용자는 키워드를 가지고 채용공고를 검색할 수 있습니다.
-    - 검색이 가능한 필드 : **회사명, 채용포지션, 사용기술 (확장 가능)**
-6. 채용공고 상세페이지 조회
-    - 채용공고의 **내용**을 포함한 상세 페이지를 조회할 수 있습니다.
-    - 같은 회사의 다른 채용 공고 리스트를 조회할 수 있습니다.
-7. 채용공고 지원
-    - 사용자는 채용 공고에 지원할 수 있습니다. (한 회사에 한 번만 지원 가능)
-
----
-
+<br/>
 <details>
   <summary>폴더구조</summary>
 
@@ -62,12 +38,25 @@
    ┗ 📜yarn.lock
 ```
 </details>
-    
+
+<details>
+  <summary>사용 기술 스택</summary>
+
+<div align=center> 
+  <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
+  <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
+    <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+    </div>
+</details>
+
+<br/>
 
 ## 구현과정
 
 1. [ERD](https://www.erdcloud.com/d/pqcapjs3QNY5LreNz) 설계
     - companies, users, posts, applications 테이블 및 관계형 데이터 모델 설계
+    ![jobdoor erd](https://github.com/enxxi/wanted-pre-onboarding-backend/assets/101889199/129e4a79-d833-4e72-962d-c9f20e7db06f)
+
 2. 시퀄라이즈 사용
     - MySQL의 ORM으로 시퀄라이즈 사용
 3. 테스트 코드 작성
@@ -75,8 +64,30 @@
 4. 미들웨어 활용
     - express-validator를 사용하여 request 데이터 유효성 검사
     - 에러 처리 미들웨어 활용
+<br/><br/><br/>
 
+## 요구사항 분석
 
+1. 채용공고 등록
+    - 회사는 채용공고를 등록합니다.
+    - 필드 : **회사 ID, 채용포지션, 채용보상금, 채용내용, 사용기술**
+2. 채용공고 수정
+    - 회사는 채용공고를 수정할 수 있습니다. (회사 ID는 수정 불가)
+    - 유효성 검사를 통해 데이터를 수정합니다.
+3. 채용공고 삭제
+    - 회사는 채용공고를 삭제할 수 있습니다.
+4. 채용공고 목록 조회
+    - 사용자는 채용 공고의 목록을 조회할 수 있습니다.
+    - 표시되는 필드 : **회사명, 국가, 지역, 채용포지션, 채용보상금, 사용기술**
+5. 채용공고 검색
+    - 사용자는 키워드를 가지고 채용공고를 검색할 수 있습니다.
+    - 검색이 가능한 필드 : **회사명, 채용포지션, 사용기술 (확장 가능)**
+6. 채용공고 상세페이지 조회
+    - 채용공고의 **내용**을 포함한 상세 페이지를 조회할 수 있습니다.
+    - 같은 회사의 다른 채용 공고 리스트를 조회할 수 있습니다.
+7. 채용공고 지원
+    - 사용자는 채용 공고에 지원할 수 있습니다. (한 회사에 한 번만 지원 가능)
+<br/><br/><br/>
 ## 기능 설명
 
 ### [ 채용공고 ]
