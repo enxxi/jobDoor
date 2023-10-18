@@ -1,5 +1,6 @@
 import { applicationRepository } from '../database/repositories/applicationRepository.js';
 import { postRepository } from '../database/repositories/postRepository.js';
+import { userRepository } from '../database/repositories/userRepository.js';
 import { BadRequestError, InternalServerError, NotFoundError } from '../middlewares/errorMiddleware.js';
 import { throwNotFoundError } from '../utils/commonFunctions.js';
 
@@ -8,6 +9,9 @@ const applicationService = {
         try {
             const post = await postRepository.getPostById(postId);
             throwNotFoundError(post, '채용 공고');
+
+            const user = await userRepository.getUserById(userId);
+            throwNotFoundError(user, '사용자');
 
             const checkApplication = await applicationRepository.getApplicationById({ postId, userId });
             if (checkApplication) {
